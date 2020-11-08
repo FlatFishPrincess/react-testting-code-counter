@@ -71,28 +71,56 @@ test('clocking on button decrements counter display', () => {
 
 
 describe('Handling error message if negative count', () => {
-  test('Display error message if negative count number and prevents button click', () => {
-    const wrapper = setup();
-  
-    const counter = findByTestAttr(wrapper, 'count').text();
-    const error = findByTestAttr(wrapper, 'error');
-    
-    // get button
-    const button = findByTestAttr(wrapper, 'decrement-button');
-    button.simulate('click');
-    console.log('debug in error?',error.debug());
-    console.log('debug in wrapper?',wrapper.debug());
 
-    
-    const hasErrorClassName = error.hasClass('error');
-    console.log('has error class name?',hasErrorClassName);
-    expect(error.hasClass('error')).toBe(true);
-    
+  test('error does not show when its not needed', () => {
+    const wrapper = setup();
+    const errorDiv = findByTestAttr(wrapper, 'error');
+    expect(errorDiv.hasClass('error')).toBe(false);
     // if button clicked, should decrement by 1
   
     // check if number is negative, if yes, display error 
   });
-})
+
+  
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup();
+
+    // clicks button
+    const dButton = findByTestAttr(wrapper, 'decrement-button');
+    dButton.simulate('click');
+  
+  });
+
+  test('error shows', () => {
+    const errorDiv = findByTestAttr(wrapper, 'error');
+    const errorHasClass = errorDiv.hasClass('error');
+    expect(errorHasClass).toBe(true);
+  });
+
+  test('counter should be 0', () => {
+    const count = findByTestAttr(wrapper, 'count');
+    const countText = count.text();
+    expect(countText).toBe("0");
+  });
+
+  test('should be 1 if increment button is clicked', () => {
+    const incrementBtn = findByTestAttr(wrapper, 'increment-button');
+    incrementBtn.simulate('click');
+    const countDiv = findByTestAttr(wrapper, 'count').text();
+    expect(countDiv).toBe("1");
+  });
+
+  test('remove error class name if increment button is clicked', () => {
+    const incrementBtn = findByTestAttr(wrapper, 'increment-button');
+    incrementBtn.simulate('click');
+
+    const errorDiv = findByTestAttr(wrapper, 'error');
+    console.log(errorDiv.debug());
+    const errorHasClass = errorDiv.hasClass('error');
+    expect(errorHasClass).toBe(false);
+  });
+});
 
 /*
 test('renders learn react link',  () => {

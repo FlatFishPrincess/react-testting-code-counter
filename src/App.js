@@ -5,16 +5,6 @@ function App() {
   const [ count, setCount ] = useState(0);
   const [ error, setError ] = useState(false);
   
-  // useEffect(() => {
-  //   if(count === -1 ) {
-  //     setIsNegative(true);
-  //     setCount(0);
-  //   }
-  //   if(count > 0) {
-  //     setIsNegative(false);
-  //   }
-  // }, [count]);
-
   return (
     <div className="App" data-test="component-app">
       <h1 data-test="counter-display">The counter is currently&nbsp;</h1>
@@ -23,7 +13,7 @@ function App() {
         The counter cannot go below 0
       </span>
       <button
-        onClick={() => setCount(count + 1)}
+        onClick={() =>{ setCount(count + 1); if(error) setError(false)}}
         data-test="increment-button"
         >
           Increment Counter
